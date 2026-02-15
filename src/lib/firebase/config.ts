@@ -5,12 +5,12 @@ import { getStorage } from 'firebase/storage';
 
 // Firebase configuration - Replace with your own Firebase config
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'demo-api-key',
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'demo-project.firebaseapp.com',
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'demo-project',
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'demo-project.appspot.com',
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '123456789',
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '1:123456789:web:abc123',
+  apiKey: "AIzaSyDNayB3vwFUCigfVnz5aZgj13KISdDPjvQ",
+  authDomain: "narangeducation-2f1f3.firebaseapp.com",
+  projectId: "narangeducation-2f1f3",
+  storageBucket: "narangeducation-2f1f3.firebasestorage.app",
+  messagingSenderId: "989850403030",
+  appId: "1:989850403030:web:7c844de0fb874e457e8977"
 };
 
 // Initialize Firebase
