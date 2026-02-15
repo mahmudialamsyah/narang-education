@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   keywords: ["Narang Education", "Bimbingan Belajar", "SD", "LMS", "Pendidikan", "E-Learning"],
   authors: [{ name: "Narang Education Team" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.png",
+    apple: "/logo.png",
   },
   openGraph: {
     title: "Narang Education",

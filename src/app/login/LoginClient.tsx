@@ -13,6 +13,7 @@ import {
   Settings
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Demo credentials
 const DEMO_ADMIN = { username: 'admin', password: 'admin123', name: 'Admin Narang' };
@@ -152,49 +153,33 @@ export default function LoginClient() {
 
   return (
     <div className={`min-h-screen flex flex-col ${isDark ? 'dark bg-[#1c1c1e]' : 'bg-[#f5f5f7]'}`}>
-      {/* macOS Style Header */}
-      <header className={`sticky top-0 z-50 ${isDark ? 'bg-[#1c1c1e]/80' : 'bg-white/80'} backdrop-blur-xl border-b ${isDark ? 'border-white/10' : 'border-black/5'}`}>
-        <div className="max-w-6xl mx-auto px-4 h-12 flex items-center justify-between">
-          {/* Traffic Lights */}
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#ff5f57] hover:brightness-90 cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-[#febc2e] hover:brightness-90 cursor-pointer" />
-            <div className="w-3 h-3 rounded-full bg-[#28c840] hover:brightness-90 cursor-pointer" />
-          </div>
-
-          {/* Center Title */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <span className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              {isAdminLogin ? 'Admin Panel' : 'Student Portal'}
-            </span>
-          </div>
-
-          {/* Right Side */}
-          <div className="flex items-center gap-3">
-            {/* Theme Toggle */}
-            <button 
-              onClick={toggleTheme}
-              className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-black/5 hover:bg-black/10 text-gray-600'}`}
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center p-4 pb-24">
+      <div className="flex-1 flex items-center justify-center p-4 pb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-sm"
         >
-          {/* Simple Title - No Icon/Box */}
+          {/* Logo - Using uploaded image */}
           <div className="text-center mb-6">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="flex justify-center mb-3"
+            >
+              <Image 
+                src="/logo.png" 
+                alt="Narang Education" 
+                width={64} 
+                height={64}
+                className="rounded-2xl shadow-lg"
+              />
+            </motion.div>
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
+              transition={{ delay: 0.2 }}
               className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}
             >
               Narang Education
@@ -202,14 +187,14 @@ export default function LoginClient() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.3 }}
               className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}
             >
               {isAdminLogin ? 'Panel Administrator' : 'Platform Bimbingan Belajar SD'}
             </motion.p>
           </div>
 
-          {/* Main Card - macOS Sonoma Style */}
+          {/* Main Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -357,7 +342,6 @@ export default function LoginClient() {
                     </div>
                   </div>
 
-                  {/* Username - Not side by side */}
                   <div className="space-y-1.5">
                     <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       Username <span className="text-[#ff3b30]">*</span>
@@ -380,7 +364,6 @@ export default function LoginClient() {
                     </div>
                   </div>
 
-                  {/* Password - Not side by side */}
                   <div className="space-y-1.5">
                     <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                       Password <span className="text-[#ff3b30]">*</span>
@@ -451,7 +434,7 @@ export default function LoginClient() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Back to Home - Red Button */}
+          {/* Back to Home */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -497,24 +480,66 @@ export default function LoginClient() {
         </motion.div>
       </div>
 
-      {/* Floating Admin Access Button - Only show if not admin login */}
-      {!isAdminLogin && (
-        <Link href="/login?admin=true">
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4 }}
-            className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 ${
+      {/* Floating Bottom Navigation Bar - Pill Style */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-full shadow-lg backdrop-blur-xl ${
+            isDark 
+              ? 'bg-[#2c2c2e]/80 border border-white/10' 
+              : 'bg-white/80 border border-gray-200/50'
+          }`}
+        >
+          {/* Home Link */}
+          <Link href="/">
+            <button className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${
               isDark 
-                ? 'bg-[#3a3a3c] hover:bg-[#4a4a4c] border border-white/10' 
-                : 'bg-white hover:bg-gray-50 border border-gray-200'
+                ? 'hover:bg-white/10 text-gray-300 hover:text-white' 
+                : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
+            }`}>
+              <span className="text-lg">🏠</span>
+              <span className="text-sm font-medium hidden sm:inline">Beranda</span>
+            </button>
+          </Link>
+
+          {/* Divider */}
+          <div className={`w-px h-5 ${isDark ? 'bg-white/10' : 'bg-gray-200'}`} />
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${
+              isDark 
+                ? 'hover:bg-white/10 text-gray-300 hover:text-white' 
+                : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
             }`}
-            title="Login sebagai Admin"
           >
-            <Settings className={`w-6 h-6 ${isDark ? 'text-gray-300' : 'text-gray-600'}`} />
-          </motion.button>
-        </Link>
-      )}
+            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            <span className="text-sm font-medium hidden sm:inline">
+              {isDark ? 'Light' : 'Dark'}
+            </span>
+          </button>
+
+          {/* Divider */}
+          <div className={`w-px h-5 ${isDark ? 'bg-white/10' : 'bg-gray-200'}`} />
+
+          {/* Admin Access - Only show if not admin login */}
+          {!isAdminLogin && (
+            <Link href="/login?admin=true">
+              <button className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${
+                isDark 
+                  ? 'hover:bg-white/10 text-gray-300 hover:text-white' 
+                  : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
+              }`}>
+                <Settings className="w-5 h-5" />
+                <span className="text-sm font-medium hidden sm:inline">Admin</span>
+              </button>
+            </Link>
+          )}
+        </motion.div>
+      </div>
     </div>
   );
 }
