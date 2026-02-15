@@ -18,6 +18,7 @@ import {
   Sun
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface StudentLayoutProps {
   children: React.ReactNode;
@@ -107,20 +108,18 @@ export function StudentLayout({ children }: StudentLayoutProps) {
       {/* Header */}
       <header className={`sticky top-0 z-50 ${isDark ? 'bg-[#1c1c1e]/80' : 'bg-white/80'} backdrop-blur-xl border-b ${isDark ? 'border-white/10' : 'border-black/5'}`}>
         <div className="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
-          {/* Left - Traffic Lights on mobile, Logo on desktop */}
+          {/* Left - Logo */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 md:hidden">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-              <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-              <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-            </div>
-            
             <Link href="/student/dashboard" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#ff9500] to-[#ff6b00] rounded-lg flex items-center justify-center">
-                <span className="text-sm">📚</span>
-              </div>
-              <span className={`font-semibold hidden sm:inline ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Narang
+              <Image 
+                src="/logo.png" 
+                alt="Narang Education" 
+                width={28} 
+                height={28}
+                className="rounded-lg"
+              />
+              <span className={`font-semibold whitespace-nowrap ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                Narang Education
               </span>
             </Link>
           </div>
@@ -268,36 +267,43 @@ export function StudentLayout({ children }: StudentLayoutProps) {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-6 pb-20 md:pb-6">
+      <main className="max-w-7xl mx-auto px-4 py-6 pb-28 md:pb-6">
         {children}
       </main>
 
-      {/* Bottom Tab Bar */}
-      <nav className={`fixed bottom-0 left-0 right-0 md:hidden z-40 border-t ${
-        isDark ? 'bg-[#1c1c1e] border-white/10' : 'bg-white border-gray-100'
-      }`}>
-        <div className="flex items-center justify-around h-14">
+      {/* Floating Pill Bottom Navigation - Mobile Only */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 md:hidden">
+        <motion.nav
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`flex items-center gap-1 px-2 py-2 rounded-full shadow-xl backdrop-blur-xl ${
+            isDark 
+              ? 'bg-[#2c2c2e]/90 border border-white/10' 
+              : 'bg-white/90 border border-gray-200/50'
+          }`}
+        >
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
               <Link key={item.path} href={item.path}>
-                <div className={`flex flex-col items-center justify-center w-14 h-12 ${
-                  isActive 
-                    ? 'text-[#007aff]' 
-                    : isDark ? 'text-gray-500' : 'text-gray-400'
-                }`}>
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
-                    isActive ? 'bg-[#007aff] text-white' : ''
-                  }`}>
-                    <item.icon className="w-5 h-5" />
-                  </div>
-                  <span className="text-[10px] mt-0.5 font-medium">{item.label}</span>
-                </div>
+                <motion.div
+                  whileTap={{ scale: 0.95 }}
+                  className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-full transition-all ${
+                    isActive 
+                      ? 'bg-[#007aff] text-white shadow-md' 
+                      : isDark 
+                        ? 'text-gray-400 hover:text-white' 
+                        : 'text-gray-500 hover:text-gray-900'
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span className="text-[9px] mt-0.5 font-semibold">{item.label}</span>
+                </motion.div>
               </Link>
             );
           })}
-        </div>
-      </nav>
+        </motion.nav>
+      </div>
     </div>
   );
 }

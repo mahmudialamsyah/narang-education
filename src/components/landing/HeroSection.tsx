@@ -99,9 +99,8 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <span className="block">Narang</span>
-            <span className="block bg-gradient-to-r from-[#fee140] via-[#fa709a] to-[#f093fb] bg-clip-text text-transparent">
-              Education
+            <span className="bg-gradient-to-r from-[#fee140] via-[#fa709a] to-[#f093fb] bg-clip-text text-transparent">
+              Narang Education
             </span>
           </motion.h1>
 

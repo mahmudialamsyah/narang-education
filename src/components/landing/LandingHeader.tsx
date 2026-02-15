@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { LogIn, Phone, Moon, Sun, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -59,11 +60,15 @@ export function LandingHeader() {
       <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Left - Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#ff9500] to-[#ff6b00] rounded-lg flex items-center justify-center">
-            <span className="text-sm">📚</span>
-          </div>
-          <span className={`font-bold ${scrolled ? (isDark ? 'text-white' : 'text-gray-900') : 'text-white'}`}>
-            Narang
+          <Image 
+            src="/logo.png" 
+            alt="Narang Education" 
+            width={32} 
+            height={32}
+            className="rounded-lg"
+          />
+          <span className={`font-bold whitespace-nowrap ${scrolled ? (isDark ? 'text-white' : 'text-gray-900') : 'text-white'}`}>
+            Narang Education
           </span>
         </Link>
 
