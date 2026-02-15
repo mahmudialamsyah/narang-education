@@ -182,10 +182,10 @@ export function LandingHeader() {
 
               <button
                 onClick={() => { openWhatsApp(); setMobileMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-green-600 hover:bg-green-50"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-green-600 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-400/10"
               >
                 <Phone className="w-5 h-5" />
-                <span>WhatsApp: +62 822-5733-0958</span>
+                <span>WhatsApp</span>
               </button>
 
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>

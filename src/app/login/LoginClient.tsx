@@ -8,8 +8,6 @@ import {
   Lock, 
   User,
   Loader2,
-  Users,
-  Phone,
   Moon,
   Sun,
   Settings
@@ -17,8 +15,8 @@ import {
 import Link from 'next/link';
 
 // Demo credentials
-const DEMO_ADMIN = { email: 'admin@narang.id', password: 'admin123', name: 'Admin Narang' };
-const DEMO_STUDENT = { email: 'siswa@narang.id', password: 'siswa123', name: 'Siswa Demo', kelas: '4' };
+const DEMO_ADMIN = { username: 'admin', password: 'admin123', name: 'Admin Narang' };
+const DEMO_STUDENT = { username: 'siswa', password: 'siswa123', name: 'Siswa Demo' };
 
 export default function LoginClient() {
   const router = useRouter();
@@ -26,12 +24,10 @@ export default function LoginClient() {
   const isAdminLogin = searchParams.get('admin') === 'true';
   
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
     name: '',
-    kelas: '',
-    parentName: '',
-    parentPhone: '',
+    email: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -71,9 +67,9 @@ export default function LoginClient() {
 
     try {
       // Demo admin check
-      if (formData.email === DEMO_ADMIN.email && formData.password === DEMO_ADMIN.password) {
+      if (formData.username === DEMO_ADMIN.username && formData.password === DEMO_ADMIN.password) {
         const sessionData = {
-          email: DEMO_ADMIN.email,
+          username: DEMO_ADMIN.username,
           name: DEMO_ADMIN.name,
           role: 'admin',
           loginTime: Date.now()
@@ -84,12 +80,11 @@ export default function LoginClient() {
       }
 
       // Demo student check
-      if (formData.email === DEMO_STUDENT.email && formData.password === DEMO_STUDENT.password) {
+      if (formData.username === DEMO_STUDENT.username && formData.password === DEMO_STUDENT.password) {
         const sessionData = {
-          email: DEMO_STUDENT.email,
+          username: DEMO_STUDENT.username,
           name: DEMO_STUDENT.name,
           role: 'student',
-          kelas: DEMO_STUDENT.kelas,
           studentId: 'SD2024001',
           barcode: 'NRGDEMO123',
           loginTime: Date.now()
@@ -100,7 +95,7 @@ export default function LoginClient() {
       }
 
       // Invalid credentials
-      setError('Email atau password salah');
+      setError('Username atau password salah');
     } catch {
       setError('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
@@ -113,8 +108,20 @@ export default function LoginClient() {
     setLoading(true);
     setError('');
 
-    if (!formData.name || !formData.email || !formData.password || !formData.kelas) {
+    if (!formData.name || !formData.username || !formData.password) {
       setError('Lengkapi semua data wajib');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.username.length < 4) {
+      setError('Username minimal 4 karakter');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password minimal 6 karakter');
       setLoading(false);
       return;
     }
@@ -125,14 +132,12 @@ export default function LoginClient() {
       const barcode = `NRG${Date.now().toString(36).toUpperCase()}`;
       
       const sessionData = {
-        email: formData.email,
+        username: formData.username,
         name: formData.name,
+        email: formData.email,
         role: 'student',
-        kelas: formData.kelas,
         studentId,
         barcode,
-        parentName: formData.parentName,
-        parentPhone: formData.parentPhone,
         loginTime: Date.now()
       };
       
@@ -184,28 +189,20 @@ export default function LoginClient() {
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-sm"
         >
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center justify-center w-20 h-20 rounded-[22px] bg-gradient-to-br from-[#ff9500] to-[#ff6b00] shadow-lg mb-4"
-            >
-              <span className="text-4xl">📚</span>
-            </motion.div>
+          {/* Simple Title - No Icon/Box */}
+          <div className="text-center mb-6">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className={`text-3xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}
+              transition={{ delay: 0.1 }}
+              className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}
             >
               Narang Education
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.2 }}
               className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}
             >
               {isAdminLogin ? 'Panel Administrator' : 'Platform Bimbingan Belajar SD'}
@@ -261,16 +258,16 @@ export default function LoginClient() {
                 >
                   <div className="space-y-1.5">
                     <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                      Email
+                      Username
                     </label>
                     <div className="relative">
-                      <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
+                      <User className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
                       <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
+                        type="text"
+                        name="username"
+                        value={formData.username}
                         onChange={handleChange}
-                        placeholder="nama@email.com"
+                        placeholder="Masukkan username"
                         className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm transition-colors ${
                           isDark 
                             ? 'bg-[#1c1c1e] border-white/10 text-white placeholder-gray-500 focus:border-[#007aff] focus:ring-1 focus:ring-[#007aff]' 
@@ -332,7 +329,7 @@ export default function LoginClient() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   onSubmit={handleRegister}
-                  className="space-y-3"
+                  className="space-y-4"
                 >
                   <div className="space-y-1.5">
                     <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -360,40 +357,43 @@ export default function LoginClient() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1.5">
-                      <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Kelas <span className="text-[#ff3b30]">*</span>
-                      </label>
-                      <select
-                        name="kelas"
-                        value={formData.kelas}
-                        onChange={(e) => setFormData(prev => ({ ...prev, kelas: e.target.value }))}
-                        className={`w-full px-3 py-2.5 rounded-lg border text-sm transition-colors ${
+                  {/* Username - Not side by side */}
+                  <div className="space-y-1.5">
+                    <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                      Username <span className="text-[#ff3b30]">*</span>
+                    </label>
+                    <div className="relative">
+                      <User className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
+                      <input
+                        type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        placeholder="Min. 4 karakter"
+                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm transition-colors ${
                           isDark 
-                            ? 'bg-[#1c1c1e] border-white/10 text-white focus:border-[#007aff]' 
-                            : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-[#007aff] focus:bg-white'
+                            ? 'bg-[#1c1c1e] border-white/10 text-white placeholder-gray-500 focus:border-[#007aff]' 
+                            : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#007aff] focus:bg-white'
                         } outline-none`}
                         required
-                      >
-                        <option value="" className={isDark ? 'bg-[#1c1c1e]' : ''}>Pilih</option>
-                        {[1, 2, 3, 4, 5, 6].map(k => (
-                          <option key={k} value={k} className={isDark ? 'bg-[#1c1c1e]' : ''}>Kelas {k}</option>
-                        ))}
-                      </select>
+                      />
                     </div>
+                  </div>
 
-                    <div className="space-y-1.5">
-                      <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        Password <span className="text-[#ff3b30]">*</span>
-                      </label>
+                  {/* Password - Not side by side */}
+                  <div className="space-y-1.5">
+                    <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                      Password <span className="text-[#ff3b30]">*</span>
+                    </label>
+                    <div className="relative">
+                      <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
                       <input
                         type="text"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Min. 6 karakter"
-                        className={`w-full px-3 py-2.5 rounded-lg border text-sm transition-colors ${
+                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm transition-colors ${
                           isDark 
                             ? 'bg-[#1c1c1e] border-white/10 text-white placeholder-gray-500 focus:border-[#007aff]' 
                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#007aff] focus:bg-white'
@@ -421,48 +421,6 @@ export default function LoginClient() {
                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#007aff] focus:bg-white'
                         } outline-none`}
                         required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                      Nama Orang Tua
-                    </label>
-                    <div className="relative">
-                      <Users className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-                      <input
-                        type="text"
-                        name="parentName"
-                        value={formData.parentName}
-                        onChange={handleChange}
-                        placeholder="Nama orang tua/wali"
-                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm transition-colors ${
-                          isDark 
-                            ? 'bg-[#1c1c1e] border-white/10 text-white placeholder-gray-500 focus:border-[#007aff]' 
-                            : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#007aff] focus:bg-white'
-                        } outline-none`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                      No. HP Orang Tua
-                    </label>
-                    <div className="relative">
-                      <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-                      <input
-                        type="tel"
-                        name="parentPhone"
-                        value={formData.parentPhone}
-                        onChange={handleChange}
-                        placeholder="08xxxxxxxxxx"
-                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm transition-colors ${
-                          isDark 
-                            ? 'bg-[#1c1c1e] border-white/10 text-white placeholder-gray-500 focus:border-[#007aff]' 
-                            : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#007aff] focus:bg-white'
-                        } outline-none`}
                       />
                     </div>
                   </div>
@@ -497,7 +455,7 @@ export default function LoginClient() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.5 }}
             className="mt-4 text-center"
           >
             <Link href="/">
@@ -511,7 +469,7 @@ export default function LoginClient() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.6 }}
             className={`mt-6 p-3 rounded-xl ${
               isDark ? 'bg-white/5 border border-white/10' : 'bg-gray-50 border border-gray-100'
             }`}
@@ -520,8 +478,8 @@ export default function LoginClient() {
               Demo Credentials
             </p>
             <div className={`text-xs space-y-0.5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-              <p><strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>Admin:</strong> admin@narang.id / admin123</p>
-              <p><strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>Siswa:</strong> siswa@narang.id / siswa123</p>
+              <p><strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>Admin:</strong> admin / admin123</p>
+              <p><strong className={isDark ? 'text-gray-300' : 'text-gray-700'}>Siswa:</strong> siswa / siswa123</p>
             </div>
           </motion.div>
 
@@ -529,7 +487,7 @@ export default function LoginClient() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
+            transition={{ delay: 0.7 }}
             className={`mt-4 text-center text-xs font-medium ${
               isDark ? 'text-gray-600' : 'text-gray-400'
             }`}
@@ -545,7 +503,7 @@ export default function LoginClient() {
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.4 }}
             className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 ${
               isDark 
                 ? 'bg-[#3a3a3c] hover:bg-[#4a4a4c] border border-white/10' 
