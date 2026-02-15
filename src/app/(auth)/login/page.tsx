@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { 
@@ -20,7 +20,17 @@ import Link from 'next/link';
 const DEMO_ADMIN = { email: 'admin@narang.id', password: 'admin123', name: 'Admin Narang' };
 const DEMO_STUDENT = { email: 'siswa@narang.id', password: 'siswa123', name: 'Siswa Demo', kelas: '4' };
 
-export default function LoginPage() {
+// Loading fallback component
+function LoginLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#f5f5f7]">
+      <div className="w-8 h-8 border-2 border-[#007aff] border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
+
+// Main login content component
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isAdminLogin = searchParams.get('admin') === 'true';
@@ -101,7 +111,7 @@ export default function LoginPage() {
 
       // Invalid credentials
       setError('Email atau password salah');
-    } catch (err: any) {
+    } catch {
       setError('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
       setLoading(false);
@@ -138,7 +148,7 @@ export default function LoginPage() {
       
       localStorage.setItem('narang_session', JSON.stringify(sessionData));
       router.push('/student/dashboard');
-    } catch (err: any) {
+    } catch {
       setError('Terjadi kesalahan. Silakan coba lagi.');
     } finally {
       setLoading(false);
@@ -558,5 +568,14 @@ export default function LoginPage() {
         </Link>
       )}
     </div>
+  );
+}
+
+// Main export with Suspense wrapper
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginLoading />}>
+      <LoginContent />
+    </Suspense>
   );
 }
