@@ -114,31 +114,30 @@ export function HeroSection() {
             Belajar jadi menyenangkan dengan materi interaktif, game edukasi, dan sistem absensi modern untuk siswa SD
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - Hubungi Kami (hijau) di kiri, sejajar di mobile */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-row gap-3 justify-center items-center px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
+            <Button
+              size="lg"
+              onClick={openWhatsApp}
+              className="bg-green-500 text-white hover:bg-green-600 px-6 py-5 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl shadow-green-900/30 hover:shadow-green-900/40 transition-all duration-300"
+            >
+              <Phone className="mr-2 w-5 h-5" />
+              Hubungi Kami
+            </Button>
             <Link href="/login">
               <Button
                 size="lg"
-                className="bg-white text-[#667eea] hover:bg-white/90 px-8 py-6 text-lg font-semibold rounded-2xl shadow-2xl shadow-purple-900/30 hover:shadow-purple-900/40 transition-all duration-300"
+                className="bg-white text-[#667eea] hover:bg-white/90 px-6 py-5 sm:px-8 sm:py-6 text-base sm:text-lg font-semibold rounded-2xl shadow-2xl shadow-purple-900/30 hover:shadow-purple-900/40 transition-all duration-300"
               >
                 Mulai Belajar
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={openWhatsApp}
-              className="bg-transparent border-2 border-white/50 text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold rounded-2xl"
-            >
-              <Phone className="mr-2 w-5 h-5" />
-              Hubungi Kami
-            </Button>
           </motion.div>
 
           {/* Stats */}
@@ -149,10 +148,10 @@ export function HeroSection() {
             transition={{ delay: 0.6 }}
           >
             {[
-              { value: '500+', label: 'Siswa Aktif' },
-              { value: '1000+', label: 'Materi' },
-              { value: '50+', label: 'Game Edukasi' },
-              { value: '98%', label: 'Tingkat Kepuasan' },
+              { value: '2', label: 'Sesi Belajar' },
+              { value: '1000+', label: 'Materi dan Soal' },
+              { value: '20+', label: 'Game Edukasi' },
+              { value: '97%', label: 'Tingkat Kepuasan' },
             ].map((stat, index) => (
               <div
                 key={index}

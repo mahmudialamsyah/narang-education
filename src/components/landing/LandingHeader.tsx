@@ -46,7 +46,7 @@ export function LandingHeader() {
   const navItems = [
     { label: 'Beranda', href: '#' },
     { label: 'Fitur', href: '#features' },
-    { label: 'Kontak', href: '#contact' },
+    { label: 'Testimoni', href: '#testimonials' },
   ];
 
   return (

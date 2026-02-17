@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 export function CTASection() {
   return (
@@ -31,7 +30,7 @@ export function CTASection() {
             </p>
           </motion.div>
 
-          {/* Contact Info Cards */}
+          {/* Contact Info Cards - Updated */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
             initial={{ opacity: 0, y: 30 }}
@@ -44,27 +43,27 @@ export function CTASection() {
                 <Phone className="w-6 h-6 text-white" />
               </div>
               <div className="text-white font-semibold">Telepon</div>
-              <div className="text-white/70 text-sm">+62 812-3456-7890</div>
+              <div className="text-white/70 text-sm">+6282257330958</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail className="w-6 h-6 text-white" />
               </div>
               <div className="text-white font-semibold">Email</div>
-              <div className="text-white/70 text-sm">info@narangeducation.id</div>
+              <div className="text-white/70 text-sm">narangkorea25@gmail.com</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MapPin className="w-6 h-6 text-white" />
               </div>
               <div className="text-white font-semibold">Alamat</div>
-              <div className="text-white/70 text-sm">Jl. Pendidikan No. 123</div>
+              <div className="text-white/70 text-sm">Dusun Nganjukan, Desa Karangsari, Kecamatan Sempu - Banyuwangi</div>
             </div>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Button - Centered, removed admin login */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex justify-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -77,15 +76,6 @@ export function CTASection() {
               >
                 Daftar Sekarang
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/login?admin=true">
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white/50 text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold rounded-2xl"
-              >
-                Login Admin
               </Button>
             </Link>
           </motion.div>
